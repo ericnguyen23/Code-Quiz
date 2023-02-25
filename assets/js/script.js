@@ -72,17 +72,24 @@ function checkAnswer(qNaSet) {
       // check if answer is correct
       if (userSelected == qNaSet.correcAnswer) {
         console.log("Correct!");
-        populateNewQnA(window[newSetName]);
+        populateNewQs(window[newSetName]);
+        populateNewQ(window[newSetName]);
       } else {
         console.log("Wrong!");
-        populateNewQnA(window[newSetName]);
+        populateNewQs(window[newSetName]);
+        populateNewQ(window[newSetName]);
       }
     });
   }
 }
 
-// populate next question and answers
-function populateNewQnA(qNaSet) {
+// populate next question
+function populateNewQ(qNaSet) {
+  quizQuestion.textContent = qNaSet.question;
+}
+
+// populate next set of answers
+function populateNewQs(qNaSet) {
   for (var i = 0; i < answersArray.length; i++) {
     answersArray[i].innerText = qNaSet.answers[i];
   }
