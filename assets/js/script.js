@@ -9,6 +9,7 @@ var answersArray = document
 
 // create object to store question and answers
 var qNa0 = {
+  index: 0,
   question: "Question 1: What is an Array?",
   answers: [
     "A long string of text",
@@ -20,6 +21,7 @@ var qNa0 = {
 };
 
 var qNa1 = {
+  index: 1,
   question: "Question 2: What's the difference between a function and method?",
   answers: [
     "A method is a built in function",
@@ -31,9 +33,17 @@ var qNa1 = {
 };
 
 var qNa2 = {
+  index: 2,
   question: "Question 3: fdsfd?",
   answers: ["xxxx", "zzzz", "aaaa", "bbbb"],
   correcAnswer: "bbbb",
+};
+
+var qNa3 = {
+  index: 3,
+  question: "Question 4: fsdfdsaf jkldajflk djsa?",
+  answers: ["qqqqq", "wwwww", "eeeee", "rrrrr"],
+  correcAnswer: "qqqqq",
 };
 
 // populate initial question
@@ -49,7 +59,27 @@ function startQuiz() {
   checkAnswer(qNa0);
 }
 
-startQuiz();
+// check users  answers
+function checkAnswer(qNaSet) {
+  for (var i = 0; i < answersArray.length; i++) {
+    answersArray[i].addEventListener("click", function () {
+      // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
+      var indexNum = qNaSet.index + 1;
+      var stringIndexNum = indexNum.toString();
+      var newSetName = "qNa" + stringIndexNum;
+
+      var userSelected = event.srcElement.innerText;
+      // check if answer is correct
+      if (userSelected == qNaSet.correcAnswer) {
+        console.log("Correct!");
+        populateNewQnA(window[newSetName]);
+      } else {
+        console.log("Wrong!");
+        populateNewQnA(window[newSetName]);
+      }
+    });
+  }
+}
 
 // populate next question and answers
 function populateNewQnA(qNaSet) {
@@ -59,19 +89,4 @@ function populateNewQnA(qNaSet) {
   checkAnswer(qNaSet);
 }
 
-// check users  answers
-function checkAnswer(qNaSet) {
-  for (var i = 0; i < answersArray.length; i++) {
-    answersArray[i].addEventListener("click", function () {
-      var userSelected = event.srcElement.innerText;
-      // check if answer is correct
-      if (userSelected == qNaSet.correcAnswer) {
-        console.log("Correct!");
-      } else {
-        console.log("Wrong!");
-      }
-      //  CONTINUE HERE!!!!!! NEED A WAY TO POPLATE NEXT SET OF QUESTIONS DYNAMICALLY
-      populateNewQnA(qNa2);
-    });
-  }
-}
+startQuiz();
