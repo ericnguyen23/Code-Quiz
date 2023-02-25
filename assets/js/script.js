@@ -1,9 +1,14 @@
 // store elements
 var quizContainer = document.getElementById("quiz-container");
 var quizQuestion = document.getElementById("quiz-question");
+var ul = document.getElementById("answers-ul");
+var li = document.getElementsByTagName("li");
+var answersArray = document
+  .getElementById("answers-ul")
+  .getElementsByTagName("li");
 
 // create object to store question and answers
-var qNaOne = {
+var qNa0 = {
   question: "Question 1: What is an Array?",
   answers: [
     "A long string of text",
@@ -14,7 +19,7 @@ var qNaOne = {
   correcAnswer: "A collection of items",
 };
 
-var qNaTwo = {
+var qNa1 = {
   question: "Question 2: What's the difference between a function and method?",
   answers: [
     "A method is a built in function",
@@ -25,38 +30,48 @@ var qNaTwo = {
   correcAnswer: "A method is a built in function",
 };
 
-// fill in the first question
-quizQuestion.textContent = qNaOne.question;
+var qNa2 = {
+  question: "Question 3: fdsfd?",
+  answers: ["xxxx", "zzzz", "aaaa", "bbbb"],
+  correcAnswer: "bbbb",
+};
 
-// fill in answers
+// populate initial question
+quizQuestion.textContent = qNa0.question;
+// populate initial answers
 // inspiration source: http://www.java2s.com/Tutorials/Javascript/Javascript_Element_How_to/UL/Create_ul_and_li_element.htm
-var ul = document.getElementById("answers-ul");
-
-function populateQnA(qNa) {
-  for (var i = 0; i < qNa.answers.length; i++) {
+function startQuiz() {
+  for (var i = 0; i < qNa0.answers.length; i++) {
     var li = document.createElement("li");
-    li.textContent = qNa.answers[i];
+    li.textContent = qNa0.answers[i];
     ul.appendChild(li);
   }
+  checkAnswer(qNa0);
 }
 
-populateQnA(qNaOne);
+startQuiz();
 
-// check to see if user selected the right answer
-// store all li's in a variable, this will be an array of li elements
-var answers = document.getElementById("answers-ul").getElementsByTagName("li");
+// populate next question and answers
+function populateNewQnA(qNaSet) {
+  for (var i = 0; i < answersArray.length; i++) {
+    answersArray[i].innerText = qNaSet.answers[i];
+  }
+  checkAnswer(qNaSet);
+}
 
-for (var i = 0; i < answers.length; i++) {
-  answers[i].addEventListener("click", function () {
-    var userSelected = event.srcElement.innerText;
-    // check if answer is correct
-    if (userSelected == qNaOne.correcAnswer) {
-      console.log("Correct!");
-    } else {
-      console.log("Wrong!");
-    }
-    // populate the next set of qna
-    // TODO: NEED FUNCTION TO REPLACE LI NOT APPEND!!!!
-    populateQnA(qNaTwo);
-  });
+// check users  answers
+function checkAnswer(qNaSet) {
+  for (var i = 0; i < answersArray.length; i++) {
+    answersArray[i].addEventListener("click", function () {
+      var userSelected = event.srcElement.innerText;
+      // check if answer is correct
+      if (userSelected == qNaSet.correcAnswer) {
+        console.log("Correct!");
+      } else {
+        console.log("Wrong!");
+      }
+      //  CONTINUE HERE!!!!!! NEED A WAY TO POPLATE NEXT SET OF QUESTIONS DYNAMICALLY
+      populateNewQnA(qNa2);
+    });
+  }
 }
