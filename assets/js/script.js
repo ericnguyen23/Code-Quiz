@@ -65,32 +65,37 @@ function startQuiz() {
 
 // check for clicks and correct answer
 function checkForClickAndAnswer(qNaSet) {
-  ul.addEventListener("click", function () {
-    var element = event.target;
-    var elementTextContent = element.innerText;
+  ul.addEventListener(
+    "click",
+    function () {
+      // set event vars
+      var element = event.target;
+      var elementTextContent = element.innerText;
 
-    // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
-    var indexNum = qNaSet.index + 1;
-    var stringIndexNum = indexNum.toString();
-    var newSetName = "qNa" + stringIndexNum;
+      // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
+      var indexNum = qNaSet.index + 1;
+      var stringIndexNum = indexNum.toString();
+      var newSetName = "qNa" + stringIndexNum;
 
-    if (element.matches("li") && elementTextContent === qNaSet.correcAnswer) {
-      corrScore++;
-      console.log("correct: " + corrScore + " wrong :" + wrongScore);
-      populateNewAnswers(window[newSetName]);
-      populateNewQ(window[newSetName]);
-    } else if (
-      element.matches("li") &&
-      elementTextContent !== qNaSet.correcAnswer
-    ) {
-      wrongScore++;
-      console.log("correct: " + corrScore + " wrong :" + wrongScore);
-      populateNewAnswers(window[newSetName]);
-      populateNewQ(window[newSetName]);
-    } else {
-      console.log("not a list item");
-    }
-  });
+      if (element.matches("li") && elementTextContent === qNaSet.correcAnswer) {
+        corrScore++;
+        console.log("correct: " + corrScore + " wrong :" + wrongScore);
+        populateNewAnswers(window[newSetName]);
+        populateNewQ(window[newSetName]);
+      } else if (
+        element.matches("li") &&
+        elementTextContent !== qNaSet.correcAnswer
+      ) {
+        wrongScore++;
+        console.log("correct: " + corrScore + " wrong :" + wrongScore);
+        populateNewAnswers(window[newSetName]);
+        populateNewQ(window[newSetName]);
+      } else {
+        console.log("not a list item");
+      }
+    },
+    { once: true }
+  );
 }
 
 // populate next question
@@ -107,28 +112,3 @@ function populateNewAnswers(qNaSet) {
 }
 
 startQuiz();
-
-// OLD CHECK FUNCTION
-// // check users answers
-// function checkAnswer(qNaSet) {
-//   for (var i = 0; i < answersArray.length; i++) {
-//     answersArray[i].addEventListener("click", function () {
-//       // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
-//       var indexNum = qNaSet.index + 1;
-//       var stringIndexNum = indexNum.toString();
-//       var newSetName = "qNa" + stringIndexNum;
-
-//       var userSelected = event.srcElement.innerText;
-//       // check if answer is correct
-//       if (userSelected == qNaSet.correcAnswer) {
-//         console.log("Correct!");
-//         populateNewAnswers(window[newSetName]);
-//         populateNewQ(window[newSetName]);
-//       } else {
-//         console.log("Wrong!");
-//         populateNewAnswers(window[newSetName]);
-//         populateNewQ(window[newSetName]);
-//       }
-//     });
-//   }
-// }
