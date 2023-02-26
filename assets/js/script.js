@@ -7,13 +7,17 @@ var answersArray = document
   .getElementById("answers-ul")
   .getElementsByTagName("li");
 
+// store scores
+var corrScore = 0;
+var wrongScore = 0;
+
 // create object to store question and answers
 var qNa0 = {
   index: 0,
   question: "Question 1: What is an Array?",
   answers: [
-    "A long string of text",
     "A collection of items",
+    "A long string of text",
     "An ordered list of characters",
     "A beam of light",
   ],
@@ -36,7 +40,7 @@ var qNa2 = {
   index: 2,
   question: "Question 3: fdsfd?",
   answers: ["xxxx", "zzzz", "aaaa", "bbbb"],
-  correcAnswer: "bbbb",
+  correcAnswer: "xxxx",
 };
 
 var qNa3 = {
@@ -48,39 +52,45 @@ var qNa3 = {
 
 // populate initial question
 quizQuestion.textContent = qNa0.question;
-// populate initial answers
-// inspiration source: http://www.java2s.com/Tutorials/Javascript/Javascript_Element_How_to/UL/Create_ul_and_li_element.htm
 function startQuiz() {
+  // populate initial answers
   for (var i = 0; i < qNa0.answers.length; i++) {
     var li = document.createElement("li");
     li.textContent = qNa0.answers[i];
     ul.appendChild(li);
   }
-  checkAnswer(qNa0);
+  // check first question
+  checkForClickAndAnswer(qNa0);
 }
 
-// check users  answers
-function checkAnswer(qNaSet) {
-  for (var i = 0; i < answersArray.length; i++) {
-    answersArray[i].addEventListener("click", function () {
-      // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
-      var indexNum = qNaSet.index + 1;
-      var stringIndexNum = indexNum.toString();
-      var newSetName = "qNa" + stringIndexNum;
+// check for clicks and correct answer
+function checkForClickAndAnswer(qNaSet) {
+  ul.addEventListener("click", function () {
+    var element = event.target;
+    var elementTextContent = element.innerText;
 
-      var userSelected = event.srcElement.innerText;
-      // check if answer is correct
-      if (userSelected == qNaSet.correcAnswer) {
-        console.log("Correct!");
-        populateNewQs(window[newSetName]);
-        populateNewQ(window[newSetName]);
-      } else {
-        console.log("Wrong!");
-        populateNewQs(window[newSetName]);
-        populateNewQ(window[newSetName]);
-      }
-    });
-  }
+    // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
+    var indexNum = qNaSet.index + 1;
+    var stringIndexNum = indexNum.toString();
+    var newSetName = "qNa" + stringIndexNum;
+
+    if (element.matches("li") && elementTextContent === qNaSet.correcAnswer) {
+      corrScore++;
+      console.log("correct: " + corrScore + " wrong :" + wrongScore);
+      populateNewAnswers(window[newSetName]);
+      populateNewQ(window[newSetName]);
+    } else if (
+      element.matches("li") &&
+      elementTextContent !== qNaSet.correcAnswer
+    ) {
+      wrongScore++;
+      console.log("correct: " + corrScore + " wrong :" + wrongScore);
+      populateNewAnswers(window[newSetName]);
+      populateNewQ(window[newSetName]);
+    } else {
+      console.log("not a list item");
+    }
+  });
 }
 
 // populate next question
@@ -89,11 +99,36 @@ function populateNewQ(qNaSet) {
 }
 
 // populate next set of answers
-function populateNewQs(qNaSet) {
+function populateNewAnswers(qNaSet) {
   for (var i = 0; i < answersArray.length; i++) {
     answersArray[i].innerText = qNaSet.answers[i];
   }
-  checkAnswer(qNaSet);
+  checkForClickAndAnswer(qNaSet);
 }
 
 startQuiz();
+
+// OLD CHECK FUNCTION
+// // check users answers
+// function checkAnswer(qNaSet) {
+//   for (var i = 0; i < answersArray.length; i++) {
+//     answersArray[i].addEventListener("click", function () {
+//       // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
+//       var indexNum = qNaSet.index + 1;
+//       var stringIndexNum = indexNum.toString();
+//       var newSetName = "qNa" + stringIndexNum;
+
+//       var userSelected = event.srcElement.innerText;
+//       // check if answer is correct
+//       if (userSelected == qNaSet.correcAnswer) {
+//         console.log("Correct!");
+//         populateNewAnswers(window[newSetName]);
+//         populateNewQ(window[newSetName]);
+//       } else {
+//         console.log("Wrong!");
+//         populateNewAnswers(window[newSetName]);
+//         populateNewQ(window[newSetName]);
+//       }
+//     });
+//   }
+// }
