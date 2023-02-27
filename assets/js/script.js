@@ -40,16 +40,26 @@ var qNa1 = {
 
 var qNa2 = {
   index: 2,
-  question: "Question 3: fdsfd?",
-  answers: ["xxxx", "zzzz", "aaaa", "bbbb"],
-  correcAnswer: "xxxx",
+  question: "Question 3: What does CSS stand for?",
+  answers: [
+    "Cascading Style Sheet",
+    "Create Systematic Styles",
+    "Code Service Syntax",
+    "Can Someone See",
+  ],
+  correcAnswer: "Cascading Style Sheet",
 };
 
 var qNa3 = {
   index: 3,
-  question: "Question 4: fsdfdsaf jkldajflk djsa?",
-  answers: ["qqqqq", "wwwww", "eeeee", "rrrrr"],
-  correcAnswer: "qqqqq",
+  question: "Question 4: How is JavaScript different from CSS?",
+  answers: [
+    "JavaScript adds functionality",
+    "JavaScript styles code",
+    "JavaScript requires no coding language",
+    "JavaScript is easier to learn",
+  ],
+  correcAnswer: "JavaScript adds functionality",
 };
 
 var qNa4 = {
@@ -139,14 +149,17 @@ function populateNewAnswers(qNaSet) {
 // generate completed screen content
 function generateComplete() {
   var completeHeader = document.createElement("h1");
+  var completeSecondaryHeader = document.createElement("h2");
   var corrScoreText = document.createElement("p");
   var wrongScoreText = document.createElement("p");
 
-  completeHeader.textContent = "Done!";
+  completeHeader.textContent = "Congratulations on completing this quiz!";
+  completeSecondaryHeader.textContent = "Here are your results:";
   corrScoreText.textContent = "Correct: " + corrScore;
   wrongScoreText.textContent = "Incorrect: " + wrongScore;
 
   completeSection.appendChild(completeHeader);
+  completeSection.appendChild(completeSecondaryHeader);
   completeSection.appendChild(corrScoreText);
   completeSection.appendChild(wrongScoreText);
 }
