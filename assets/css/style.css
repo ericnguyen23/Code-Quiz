@@ -1,6 +1,8 @@
 :root {
   --dark-blue: #174fa3;
   --light-blue: #347deb;
+  --green: #00b026;
+  --light-green: #30c952;
   --soft-border: 8px;
 }
 
@@ -62,7 +64,7 @@ section{
   padding:12px 24px;
   margin:12px 0;
   cursor: pointer;
-  background-color: var(--dark-blue);
+  background-color: var(--green);
   color: white;
   border: none;
   border-radius: var(--soft-border);
@@ -78,7 +80,7 @@ section{
 }
 
 #opening-section button:hover{
-  background-color: var(--light-blue);
+  background-color: var(--light-green);
 }
 
 /* quiz */

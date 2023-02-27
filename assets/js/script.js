@@ -1,6 +1,7 @@
 // store elements
 var startButton = document.getElementById("start-button");
 var quizContainer = document.getElementById("quiz-container");
+var completeSection = document.getElementById("complete-section");
 var quizQuestion = document.getElementById("quiz-question");
 var ul = document.getElementById("answers-ul");
 var li = document.getElementsByTagName("li");
@@ -51,6 +52,14 @@ var qNa3 = {
   correcAnswer: "qqqqq",
 };
 
+var qNa4 = {
+  index: 4,
+  question: "",
+  answers: [],
+  correcAnswer: "",
+  lastQ: true,
+};
+
 // populate initial question
 quizQuestion.textContent = qNa0.question;
 function startQuiz() {
@@ -71,37 +80,46 @@ function startQuiz() {
 
 // check for clicks and correct answer
 function checkForClickAndAnswer(qNaSet) {
-  ul.addEventListener(
-    "click",
-    function () {
-      // set event vars
-      var element = event.target;
-      var elementTextContent = element.innerText;
+  // if last set of questions, don't do run
+  if (qNaSet.lastQ !== true) {
+    ul.addEventListener(
+      "click",
+      function () {
+        // set event vars
+        var element = event.target;
+        var elementTextContent = element.innerText;
 
-      // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
-      var indexNum = qNaSet.index + 1;
-      var stringIndexNum = indexNum.toString();
-      var newSetName = "qNa" + stringIndexNum;
+        // set vars to dynamically set name, referring to qNa Object, which will then populate new qNa appropriately
+        var indexNum = qNaSet.index + 1;
+        var stringIndexNum = indexNum.toString();
+        var newSetName = "qNa" + stringIndexNum;
 
-      if (element.matches("li") && elementTextContent === qNaSet.correcAnswer) {
-        corrScore++;
-        console.log("correct: " + corrScore + " wrong :" + wrongScore);
-        populateNewAnswers(window[newSetName]);
-        populateNewQ(window[newSetName]);
-      } else if (
-        element.matches("li") &&
-        elementTextContent !== qNaSet.correcAnswer
-      ) {
-        wrongScore++;
-        console.log("correct: " + corrScore + " wrong :" + wrongScore);
-        populateNewAnswers(window[newSetName]);
-        populateNewQ(window[newSetName]);
-      } else {
-        console.log("not a list item");
-      }
-    },
-    { once: true }
-  );
+        if (
+          element.matches("li") &&
+          elementTextContent === qNaSet.correcAnswer
+        ) {
+          corrScore++;
+          console.log("correct: " + corrScore + " wrong :" + wrongScore);
+          populateNewAnswers(window[newSetName]);
+          populateNewQ(window[newSetName]);
+        } else if (
+          element.matches("li") &&
+          elementTextContent !== qNaSet.correcAnswer
+        ) {
+          wrongScore++;
+          console.log("correct: " + corrScore + " wrong :" + wrongScore);
+          populateNewAnswers(window[newSetName]);
+          populateNewQ(window[newSetName]);
+        } else {
+          console.log("not a list item");
+        }
+      },
+      { once: true }
+    );
+  } else {
+    completeSection.classList.remove("hidden");
+    generateComplete();
+  }
 }
 
 // populate next question
@@ -115,6 +133,21 @@ function populateNewAnswers(qNaSet) {
     answersArray[i].innerText = qNaSet.answers[i];
   }
   checkForClickAndAnswer(qNaSet);
+}
+
+// generate completed screen content
+function generateComplete() {
+  var completeHeader = document.createElement("h1");
+  var corrScoreText = document.createElement("p");
+  var wrongScoreText = document.createElement("p");
+
+  completeHeader.textContent = "Done!";
+  corrScoreText.textContent = "Correct: " + corrScore;
+  wrongScoreText.textContent = "Incorrect: " + wrongScore;
+
+  completeSection.appendChild(completeHeader);
+  completeSection.appendChild(corrScoreText);
+  completeSection.appendChild(wrongScoreText);
 }
 
 startQuiz();
