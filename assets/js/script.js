@@ -148,20 +148,39 @@ function populateNewAnswers(qNaSet) {
 
 // generate completed screen content
 function generateComplete() {
+  // create new elements
   var completeHeader = document.createElement("h1");
   var completeSecondaryHeader = document.createElement("h2");
   var corrScoreText = document.createElement("p");
   var wrongScoreText = document.createElement("p");
+  var completeImage = document.createElement("img");
 
+  // setting content for elements
   completeHeader.textContent = "Congratulations on completing this quiz!";
   completeSecondaryHeader.textContent = "Here are your results:";
   corrScoreText.textContent = "Correct: " + corrScore;
   wrongScoreText.textContent = "Incorrect: " + wrongScore;
 
+  // set appropriate image based on users score
+  var percentage = corrScore / (wrongScore + corrScore);
+  if (percentage >= 0.75) {
+    completeImage.setAttribute(
+      "src",
+      "https://media.giphy.com/media/o75ajIFH0QnQC3nCeD/giphy.gif"
+    );
+  } else {
+    completeImage.setAttribute(
+      "src",
+      "https://media.giphy.com/media/y9gcCOXpNX8UfZrp0X/giphy.gif"
+    );
+  }
+
+  // Add elements to the DOM
   completeSection.appendChild(completeHeader);
   completeSection.appendChild(completeSecondaryHeader);
   completeSection.appendChild(corrScoreText);
   completeSection.appendChild(wrongScoreText);
+  completeSection.appendChild(completeImage);
 }
 
 startQuiz();

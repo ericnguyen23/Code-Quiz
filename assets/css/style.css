@@ -120,3 +120,9 @@ section{
 #quiz-container ul li:hover{
   background-color: var(--light-blue);
 }
+
+/* completed section */
+
+#complete-section img {
+  margin: 12px auto;
+}
