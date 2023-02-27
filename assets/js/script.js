@@ -80,7 +80,7 @@ function startQuiz() {
 
 // check for clicks and correct answer
 function checkForClickAndAnswer(qNaSet) {
-  // if last set of questions, don't do run
+  // if not last set of questions, run
   if (qNaSet.lastQ !== true) {
     ul.addEventListener(
       "click",
@@ -94,12 +94,13 @@ function checkForClickAndAnswer(qNaSet) {
         var stringIndexNum = indexNum.toString();
         var newSetName = "qNa" + stringIndexNum;
 
+        var currSetName = "qNa" + qNaSet.index;
+
         if (
           element.matches("li") &&
           elementTextContent === qNaSet.correcAnswer
         ) {
           corrScore++;
-          console.log("correct: " + corrScore + " wrong :" + wrongScore);
           populateNewAnswers(window[newSetName]);
           populateNewQ(window[newSetName]);
         } else if (
@@ -107,11 +108,11 @@ function checkForClickAndAnswer(qNaSet) {
           elementTextContent !== qNaSet.correcAnswer
         ) {
           wrongScore++;
-          console.log("correct: " + corrScore + " wrong :" + wrongScore);
           populateNewAnswers(window[newSetName]);
           populateNewQ(window[newSetName]);
         } else {
-          console.log("not a list item");
+          // if li is not clicked re populate the current set of answers
+          populateNewAnswers(window[currSetName]);
         }
       },
       { once: true }
