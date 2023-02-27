@@ -94,7 +94,6 @@ section{
   margin-bottom:36px;
 }
 
-
 #quiz-container ul li{
   font-size: 24px;
   border:1px solid var(--dark-blue);
@@ -125,4 +124,40 @@ section{
 
 #complete-section img {
   margin: 12px auto;
+}
+
+/* Media Queries */
+
+/* phone */
+@media only screen and (max-width: 480px) {
+  h1 {
+    font-size:28px;
+  }
+
+  h2 {
+    font-size:22px;
+  }
+
+  p{line-height: 18px;}
+
+  section{
+    padding:20px;
+    width:80%;
+    height:80%;
+  }
+
+  #quiz-container ul li{
+    font-size: 18px;
+    padding: 12px 28px;
+    margin: 0 0 16px 0;
+    width: 100%;
+  }
+
+  /* completed section */
+  #complete-section img {
+    margin: 12px auto;
+    width:100%;
+  }
+
+  
 }
