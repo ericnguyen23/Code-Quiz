@@ -1,4 +1,5 @@
 // store elements
+var startButton = document.getElementById("start-button");
 var quizContainer = document.getElementById("quiz-container");
 var quizQuestion = document.getElementById("quiz-question");
 var ul = document.getElementById("answers-ul");
@@ -53,6 +54,11 @@ var qNa3 = {
 // populate initial question
 quizQuestion.textContent = qNa0.question;
 function startQuiz() {
+  // hide opening section and show first question
+  startButton.addEventListener("click", function () {
+    quizContainer.classList.remove("hidden");
+  });
+
   // populate initial answers
   for (var i = 0; i < qNa0.answers.length; i++) {
     var li = document.createElement("li");
