@@ -21,21 +21,25 @@ var gameComplete = false;
 
 // see latest score
 seeScore.addEventListener("click", function () {
-  localData = JSON.parse(localStorage.getItem("quizScore"));
-  alert(
-    "Name: " +
-      localData.name +
-      "\n" +
-      "Correct: " +
-      localData.correct +
-      "\n" +
-      "Incorrect: " +
-      localData.incorrect +
-      "\n" +
-      "Percentage: " +
-      localData.percentage +
-      "\n"
-  );
+  if (localStorage.getItem("quizScore") === null) {
+    alert("No scores yet");
+  } else {
+    localData = JSON.parse(localStorage.getItem("quizScore"));
+    alert(
+      "Name: " +
+        localData.name +
+        "\n" +
+        "Correct: " +
+        localData.correct +
+        "\n" +
+        "Incorrect: " +
+        localData.incorrect +
+        "\n" +
+        "Percentage: " +
+        localData.percentage +
+        "\n"
+    );
+  }
 });
 
 // create object to store question and answers
