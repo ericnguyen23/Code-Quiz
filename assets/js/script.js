@@ -5,6 +5,7 @@ var completeSection = document.getElementById("complete-section");
 var quizQuestion = document.getElementById("quiz-question");
 var ul = document.getElementById("answers-ul");
 var li = document.getElementsByTagName("li");
+var timer = document.getElementById("time-left");
 var answersArray = document
   .getElementById("answers-ul")
   .getElementsByTagName("li");
@@ -12,6 +13,10 @@ var answersArray = document
 // store scores
 var corrScore = 0;
 var wrongScore = 0;
+
+// store and set timer
+var timeLeft = 30;
+timer.textContent = timeLeft;
 
 // create object to store question and answers
 var qNa0 = {
@@ -70,20 +75,32 @@ var qNa4 = {
   lastQ: true,
 };
 
+// timer
+function startTimer() {
+  var timeInterval = setInterval(function () {
+    timeLeft--;
+    timer.textContent = timeLeft;
+
+    if (timeLeft === 0) {
+      clearInterval(timeInterval);
+    }
+  }, 1000);
+}
+
 // populate initial question
 quizQuestion.textContent = qNa0.question;
-function startQuiz() {
-  // hide opening section and show first question
-  startButton.addEventListener("click", function () {
-    quizContainer.classList.remove("hidden");
-  });
 
-  // populate initial answers
-  for (var i = 0; i < qNa0.answers.length; i++) {
-    var li = document.createElement("li");
-    li.textContent = qNa0.answers[i];
-    ul.appendChild(li);
-  }
+// populate initial answers
+for (var i = 0; i < qNa0.answers.length; i++) {
+  var li = document.createElement("li");
+  li.textContent = qNa0.answers[i];
+  ul.appendChild(li);
+}
+
+// start quiz
+function startQuiz() {
+  // start timer
+  startTimer();
   // check first question
   checkForClickAndAnswer(qNa0);
 }
@@ -118,6 +135,7 @@ function checkForClickAndAnswer(qNaSet) {
           elementTextContent !== qNaSet.correcAnswer
         ) {
           wrongScore++;
+          timeLeft -= 5;
           populateNewAnswers(window[newSetName]);
           populateNewQ(window[newSetName]);
         } else {
@@ -183,4 +201,7 @@ function generateComplete() {
   completeSection.appendChild(completeImage);
 }
 
-startQuiz();
+startButton.addEventListener("click", function () {
+  quizContainer.classList.remove("hidden");
+  startQuiz();
+});

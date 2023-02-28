@@ -37,6 +37,15 @@ p{line-height: 24px;}
   display:none;
 }
 
+/* timer */
+#timer {
+  color:white;
+  font-weight: 700;
+  font-size: 22px;
+  text-align: right;
+  margin: 24px 24px 0 0;
+}
+
 /* section */
 section{
   padding:60px;
