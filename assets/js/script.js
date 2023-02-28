@@ -16,7 +16,8 @@ var wrongScore = 0;
 
 // store and set timer
 var timeLeft = 30;
-timer.textContent = timeLeft;
+
+var gameComplete = false;
 
 // create object to store question and answers
 var qNa0 = {
@@ -81,7 +82,7 @@ function startTimer() {
     timeLeft--;
     timer.textContent = timeLeft;
 
-    if (timeLeft === 0) {
+    if (timeLeft === 0 || gameComplete === true) {
       clearInterval(timeInterval);
     }
   }, 1000);
@@ -147,6 +148,7 @@ function checkForClickAndAnswer(qNaSet) {
     );
   } else {
     completeSection.classList.remove("hidden");
+    gameComplete = true;
     generateComplete();
   }
 }
