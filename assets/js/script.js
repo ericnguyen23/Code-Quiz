@@ -107,6 +107,9 @@ function startTimer() {
 
     if (timeLeft === 0 || gameComplete === true) {
       clearInterval(timeInterval);
+      completeSection.classList.remove("hidden");
+      gameComplete = true;
+      generateComplete();
     }
   }, 1000);
 }
@@ -142,6 +145,7 @@ function checkForClickAndAnswer(qNaSet) {
     ul.addEventListener(
       "click",
       function () {
+        // event.stopPropagation();
         // set event vars
         var element = event.target;
         var elementTextContent = element.innerText;
@@ -158,6 +162,7 @@ function checkForClickAndAnswer(qNaSet) {
           elementTextContent === qNaSet.correcAnswer
         ) {
           corrScore++;
+          console.log("Correct: " + corrScore, "Wrong: " + wrongScore);
           populateNewAnswers(window[newSetName]);
           populateNewQ(window[newSetName]);
         } else if (
@@ -165,6 +170,7 @@ function checkForClickAndAnswer(qNaSet) {
           elementTextContent !== qNaSet.correcAnswer
         ) {
           wrongScore++;
+          console.log("Correct: " + corrScore, "Wrong: " + wrongScore);
           timeLeft -= 5;
           populateNewAnswers(window[newSetName]);
           populateNewQ(window[newSetName]);
