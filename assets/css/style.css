@@ -49,6 +49,7 @@ p{line-height: 24px;}
 /* see score */
 #see-score {
   color:white;
+  cursor: pointer;
   font-weight: 700;
   font-size: 22px;
   position: absolute;

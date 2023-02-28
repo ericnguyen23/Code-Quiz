@@ -107,8 +107,11 @@ function startTimer() {
 
     if (timeLeft === 0 || gameComplete === true) {
       clearInterval(timeInterval);
+    }
+
+    if (timeLeft === 0 && gameComplete === false) {
+      clearInterval(timeInterval);
       completeSection.classList.remove("hidden");
-      gameComplete = true;
       generateComplete();
     }
   }, 1000);
