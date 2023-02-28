@@ -128,6 +128,8 @@ function generateInitialQnA() {
     li.textContent = qNa0.answers[i];
     ul.appendChild(li);
   }
+  // check first question
+  checkForClickAndAnswer(qNa0);
 }
 
 // start quiz
@@ -137,8 +139,6 @@ function startQuiz() {
   gameComplete = false;
   // start timer
   startTimer();
-  // check first question
-  checkForClickAndAnswer(qNa0);
 }
 
 // check for clicks and correct answer
@@ -165,7 +165,6 @@ function checkForClickAndAnswer(qNaSet) {
           elementTextContent === qNaSet.correcAnswer
         ) {
           corrScore++;
-          console.log("Correct: " + corrScore, "Wrong: " + wrongScore);
           populateNewAnswers(window[newSetName]);
           populateNewQ(window[newSetName]);
         } else if (
@@ -173,7 +172,6 @@ function checkForClickAndAnswer(qNaSet) {
           elementTextContent !== qNaSet.correcAnswer
         ) {
           wrongScore++;
-          console.log("Correct: " + corrScore, "Wrong: " + wrongScore);
           timeLeft -= 5;
           populateNewAnswers(window[newSetName]);
           populateNewQ(window[newSetName]);
