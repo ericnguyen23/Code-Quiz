@@ -19,6 +19,7 @@ var wrongScore = 0;
 var timeLeft = 30;
 var gameComplete = false;
 
+// see latest score
 seeScore.addEventListener("click", function () {
   localData = JSON.parse(localStorage.getItem("quizScore"));
   alert(
@@ -106,18 +107,24 @@ function startTimer() {
   }, 1000);
 }
 
-// populate initial question
-quizQuestion.textContent = qNa0.question;
+// generate initial question
+function generateInitialQnA() {
+  // populate initial question
+  quizQuestion.textContent = qNa0.question;
 
-// populate initial answers
-for (var i = 0; i < qNa0.answers.length; i++) {
-  var li = document.createElement("li");
-  li.textContent = qNa0.answers[i];
-  ul.appendChild(li);
+  // populate initial answers
+  for (var i = 0; i < qNa0.answers.length; i++) {
+    var li = document.createElement("li");
+    li.textContent = qNa0.answers[i];
+    ul.appendChild(li);
+  }
 }
 
 // start quiz
 function startQuiz() {
+  completeSection.classList.add("hidden");
+  generateInitialQnA();
+  gameComplete = false;
   // start timer
   startTimer();
   // check first question
@@ -200,14 +207,20 @@ function generateComplete() {
   var nameDivSpan = document.createElement("span");
   var nameDivInput = document.createElement("input");
   nameDivInput.type = "text";
-  var submitButton = document.createElement("button");
-  submitButton.type = "button";
-  submitButton.textContent = "Save and See My Score!";
+  // save button
+  var saveButton = document.createElement("button");
+  saveButton.type = "button";
+  saveButton.textContent = "Save and See My Score!";
+  // restart button
+  var restartButton = document.createElement("button");
+  restartButton.type = "button";
+  restartButton.textContent = "Restart";
 
   nameDivSpan.textContent = "Name";
   nameDiv.appendChild(nameDivSpan);
   nameDiv.appendChild(nameDivInput);
-  nameDiv.appendChild(submitButton);
+  nameDiv.appendChild(saveButton);
+  nameDiv.appendChild(restartButton);
 
   // setting content for elements
   completeHeader.textContent = "Congratulations on completing this quiz!";
@@ -219,7 +232,7 @@ function generateComplete() {
   completeSection.appendChild(completeSecondaryHeader);
   completeSection.appendChild(nameDiv);
 
-  submitButton.addEventListener("click", function () {
+  saveButton.addEventListener("click", function () {
     var userName = nameDivInput.value;
 
     var userData = {
@@ -257,10 +270,11 @@ function generateComplete() {
       );
     }
   });
-}
 
-// generate recorded score
-function generateRecord() {}
+  restartButton.addEventListener("click", function () {
+    window.location.reload();
+  });
+}
 
 startButton.addEventListener("click", function () {
   quizContainer.classList.remove("hidden");
