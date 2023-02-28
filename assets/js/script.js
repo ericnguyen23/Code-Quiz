@@ -14,9 +14,8 @@ var answersArray = document
 var corrScore = 0;
 var wrongScore = 0;
 
-// store and set timer
+// timer and game tracker
 var timeLeft = 30;
-
 var gameComplete = false;
 
 // create object to store question and answers
@@ -175,6 +174,21 @@ function generateComplete() {
   var wrongScoreText = document.createElement("p");
   var completeImage = document.createElement("img");
 
+  // Create div with text input and button to save
+  var nameDiv = document.createElement("div");
+  nameDiv.id = "submit-div";
+  var nameDivSpan = document.createElement("span");
+  var nameDivInput = document.createElement("input");
+  nameDivInput.type = "text";
+  var submitButton = document.createElement("button");
+  submitButton.type = "button";
+  submitButton.textContent = "Submit";
+
+  nameDivSpan.textContent = "Enter your name to save score";
+  nameDiv.appendChild(nameDivSpan);
+  nameDiv.appendChild(nameDivInput);
+  nameDiv.appendChild(submitButton);
+
   // setting content for elements
   completeHeader.textContent = "Congratulations on completing this quiz!";
   completeSecondaryHeader.textContent = "Here are your results:";
@@ -198,9 +212,22 @@ function generateComplete() {
   // Add elements to the DOM
   completeSection.appendChild(completeHeader);
   completeSection.appendChild(completeSecondaryHeader);
+  completeSection.appendChild(nameDiv);
   completeSection.appendChild(corrScoreText);
   completeSection.appendChild(wrongScoreText);
   completeSection.appendChild(completeImage);
+
+  submitButton.addEventListener("click", function () {
+    var userName = nameDivInput.value;
+
+    var userData = {
+      name: userName,
+      correct: corrScore,
+      incorrect: wrongScore,
+    };
+
+    localStorage.setItem("quizScore", JSON.stringify(userData));
+  });
 }
 
 startButton.addEventListener("click", function () {
