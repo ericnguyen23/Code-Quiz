@@ -6,6 +6,7 @@ var quizQuestion = document.getElementById("quiz-question");
 var ul = document.getElementById("answers-ul");
 var li = document.getElementsByTagName("li");
 var timer = document.getElementById("time-left");
+var seeScore = document.getElementById("see-score");
 var answersArray = document
   .getElementById("answers-ul")
   .getElementsByTagName("li");
@@ -17,6 +18,24 @@ var wrongScore = 0;
 // timer and game tracker
 var timeLeft = 30;
 var gameComplete = false;
+
+seeScore.addEventListener("click", function () {
+  localData = JSON.parse(localStorage.getItem("quizScore"));
+  alert(
+    "Name: " +
+      localData.name +
+      "\n" +
+      "Correct: " +
+      localData.correct +
+      "\n" +
+      "Incorrect: " +
+      localData.incorrect +
+      "\n" +
+      "Percentage: " +
+      localData.percentage +
+      "\n"
+  );
+});
 
 // create object to store question and answers
 var qNa0 = {
@@ -167,11 +186,12 @@ function populateNewAnswers(qNaSet) {
 
 // generate completed screen content
 function generateComplete() {
+  var percentage = (corrScore / (wrongScore + corrScore)) * 100 + "%";
   // create new elements
   var completeHeader = document.createElement("h1");
   var completeSecondaryHeader = document.createElement("h2");
-  var corrScoreText = document.createElement("p");
-  var wrongScoreText = document.createElement("p");
+  var scoreText = document.createElement("p");
+  scoreText.id = "score-text";
   var completeImage = document.createElement("img");
 
   // Create div with text input and button to save
@@ -182,40 +202,22 @@ function generateComplete() {
   nameDivInput.type = "text";
   var submitButton = document.createElement("button");
   submitButton.type = "button";
-  submitButton.textContent = "Submit";
+  submitButton.textContent = "Save and See My Score!";
 
-  nameDivSpan.textContent = "Enter your name to save score";
+  nameDivSpan.textContent = "Name";
   nameDiv.appendChild(nameDivSpan);
   nameDiv.appendChild(nameDivInput);
   nameDiv.appendChild(submitButton);
 
   // setting content for elements
   completeHeader.textContent = "Congratulations on completing this quiz!";
-  completeSecondaryHeader.textContent = "Here are your results:";
-  corrScoreText.textContent = "Correct: " + corrScore;
-  wrongScoreText.textContent = "Incorrect: " + wrongScore;
-
-  // set appropriate image based on users score
-  var percentage = corrScore / (wrongScore + corrScore);
-  if (percentage >= 0.75) {
-    completeImage.setAttribute(
-      "src",
-      "https://media.giphy.com/media/o75ajIFH0QnQC3nCeD/giphy.gif"
-    );
-  } else {
-    completeImage.setAttribute(
-      "src",
-      "https://media.giphy.com/media/y9gcCOXpNX8UfZrp0X/giphy.gif"
-    );
-  }
+  completeSecondaryHeader.textContent =
+    "Enter your name to see and save results";
 
   // Add elements to the DOM
   completeSection.appendChild(completeHeader);
   completeSection.appendChild(completeSecondaryHeader);
   completeSection.appendChild(nameDiv);
-  completeSection.appendChild(corrScoreText);
-  completeSection.appendChild(wrongScoreText);
-  completeSection.appendChild(completeImage);
 
   submitButton.addEventListener("click", function () {
     var userName = nameDivInput.value;
@@ -224,11 +226,41 @@ function generateComplete() {
       name: userName,
       correct: corrScore,
       incorrect: wrongScore,
+      percentage: percentage,
     };
 
     localStorage.setItem("quizScore", JSON.stringify(userData));
+
+    completeSection.appendChild(scoreText);
+    completeSection.appendChild(completeImage);
+
+    scoreText.textContent =
+      userData.name +
+      ", you got " +
+      percentage +
+      "! " +
+      corrScore +
+      " correct, & " +
+      wrongScore +
+      " incorrect.";
+
+    // set appropriate image based on users score
+    if (percentage.slice(0, -1) >= 75) {
+      completeImage.setAttribute(
+        "src",
+        "https://media.giphy.com/media/o75ajIFH0QnQC3nCeD/giphy.gif"
+      );
+    } else {
+      completeImage.setAttribute(
+        "src",
+        "https://media.giphy.com/media/y9gcCOXpNX8UfZrp0X/giphy.gif"
+      );
+    }
   });
 }
+
+// generate recorded score
+function generateRecord() {}
 
 startButton.addEventListener("click", function () {
   quizContainer.classList.remove("hidden");
